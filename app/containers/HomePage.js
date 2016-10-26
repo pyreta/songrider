@@ -1,12 +1,12 @@
 // @flow
 import React, { Component } from 'react';
 import Home from '../components/Home';
-import Controls from '../components/Controls';
+import Recorder from '../components/Recorder';
 
 export default class HomePage extends Component {
   render() {
     return (
-      <Controls />
+      <Recorder />
     );
   }
 }

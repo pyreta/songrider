@@ -1,32 +1,24 @@
 // @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import styles from './Controls.css';
+import styles from './Recorder.css';
 
 const WebMidi = require('../utils/webmidi.min.js');
 
-export default class Main extends Component {
+export default class Recorder extends Component {
   constructor() {
     super();
     this.state = {
-      instrument: 'harp'
+      instrument: 'harp',
+      input: null
     };
     this.start = null;
     this.events = [];
   }
-  playy(e){
-    // console.log(e.timestamp);
-    // let path = "./samples/test.wav";
-    // let aaa = new Audio(path);
-    // aaa.controle=true;
-    // aaa.play();
+  playBack(e){
     let speed = parseInt(document.getElementById("speed").value);
     this.events.forEach((eventt)=>{
-      // console.log(eventt);
       setTimeout(()=>{
-        console.log(eventt);
-        console.log("speed");
-        console.log(speed);
         let path = `./samples/${eventt.instrument}/${eventt.note.split('#').join('sharp')}.wav`;
         let aaa = new Audio(path);
         aaa.volume = eventt.volume;
@@ -37,10 +29,12 @@ export default class Main extends Component {
 
   playMidi(e){
     // console.log("MIDI PLAYED!!!");
+    let volume = e.velocity;
+    if (volume < 0.1) volume = 0.1;
     console.log(e);
     this.events.push({
       note:`${e.note.name}${e.note.octave}`,
-      volume:e.velocity,
+      volume:volume,
       instrument:this.state.instrument,
       time:e.timestamp-this.start
     });
@@ -49,11 +43,7 @@ export default class Main extends Component {
     let note = e.note.name + e.note.octave;
     let path = `./samples/${this.state.instrument}/${note.split('#').join('sharp')}.wav`;
     let aaa = new Audio(path);
-    // console.log(path);
-    aaa.volume = e.velocity;
-    // aaa.loop=true;
-    if (aaa.volume < 0.1) aaa.volume = 0.1;
-    // aaa.load();
+    aaa.volume = volume;
     aaa.play();
   }
 
@@ -70,31 +60,11 @@ export default class Main extends Component {
       // console.log(e);
       // console.log(e.timeStamp);
       // if (!that.start) that.start = e.timeStamp;
-      that.start = e.timeStamp;
+      this.start = e.timeStamp;
     });
 
-    WebMidi.enable((err) => {
 
-      if (err) {
-        console.log("WebMidi could not be enabled.", err);
-      } else {
-        console.log("WebMidi enabled!");
-        let input = WebMidi.inputs[0];
-        input.addListener('noteon', "all",
-          function (e) {
-            that.playMidi(e);
-          }
-        );
-
-      input.addListener('noteoff', "all",
-        function (e) {
-          console.log(e);
-          // console.log("Received 'COMPONENT noteoff' message (" + e.note.name + e.note.octave + ").");
-        }
-      );
-      }
-
-    });
+    this.enableWedMidi();
 
   }
 
@@ -103,8 +73,58 @@ export default class Main extends Component {
     this.events = [];
   }
 
-  record() {
+  enableWedMidi() {
+    WebMidi.enable((err) => {
+      if (err) {
+        console.log("WebMidi could not be enabled.", err);
+      } else {
+        console.log("WebMidi enabled!");
+        this.connectMidiDevice();
+      }
 
+    });
+  }
+
+  connectMidiDevice() {
+        console.log(WebMidi);
+        let input = WebMidi.inputs[0];
+        if (input) {
+          console.log("MIDI device Found!");
+          this.setState({ input: WebMidi.inputs[0]});
+          input.addListener('noteon', "all",
+            (e) => {
+              this.playMidi(e);
+            }
+          );
+          input.addListener('pitchbend', "all", (e)=> {
+              console.log("Pitch value: " + e.value);
+          });
+          input.addListener('noteoff', "all",
+            (e) => {
+              console.log(e);
+            }
+          );
+          input.addListener("controlchange", "all",
+            (e) => {
+              console.log(e);
+            }
+          );
+        } else {
+          console.log("No Device Found");
+          // WebMidi.disable();
+        }
+      }
+
+  findMidiDevice() {
+    let deviceInterval = setInterval(()=>{
+      console.log("KJHASDKJAHSD");
+      // this.connectMidiDevice();
+    }, 1000);
+    if (this.state.input) clearInterval(deviceInterval);
+  }
+
+  record() {
+    this.playBack();
   }
 
   changeSpeed(){
@@ -120,7 +140,7 @@ export default class Main extends Component {
     return (
       <div>
         <div className={styles.container}>
-          <h2 onClick={this.playy.bind(this)}>play</h2>
+          <h2 onClick={this.playBack.bind(this)}>play</h2>
           <h2 onClick={this.erase.bind(this)}>clear</h2>
           <h2 id="record" onClick={this.record.bind(this)}>record</h2>
           <input onChange={this.changeSpeed} id="speed" type="range" min="0" max="1000"/>
