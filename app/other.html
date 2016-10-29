@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Song Rider</title>
+    <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.min.css" />
+    <script>
+      if (!process.env.HOT) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = '../dist/style.css';
+        document.write(link.outerHTML);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root" style="height: 1500px; width: 1000px; background-color: yellow;">Other Window</div>
+
+
+
+  </body>
+</html>

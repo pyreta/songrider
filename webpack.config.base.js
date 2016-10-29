@@ -30,7 +30,7 @@ export default validate({
     extensions: ['', '.js', '.jsx', '.json'],
     packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
   },
-
+  devtool: 'source-maps',
   plugins: [],
 
   externals: [

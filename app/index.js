@@ -6,14 +6,16 @@ import { Router, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import routes from './routes';
 import configureStore from './store/configureStore';
+import RecorderContainer from './containers/RecorderContainer';
 import './app.global.css';
 
 const store = configureStore();
+window.store = store;
 const history = syncHistoryWithStore(hashHistory, store);
 
 render(
   <Provider store={store}>
-    <Router history={history} routes={routes} />
+    <RecorderContainer />
   </Provider>,
   document.getElementById('root')
 );

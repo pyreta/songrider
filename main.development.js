@@ -41,6 +41,7 @@ app.on('ready', async () => {
     height: 528
   });
 
+
   mainWindow.loadURL(`file://${__dirname}/app/app.html`);
 
   mainWindow.webContents.on('did-finish-load', () => {
@@ -51,6 +52,22 @@ app.on('ready', async () => {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+
+  let otherWindow = new BrowserWindow({
+    show: false,
+    width: 400,
+    height: 550,
+    // alwaysOnTop: true,
+    y:0,
+    x:0,
+    parent: mainWindow,
+    darkTheme: true
+    // frame: false
+  });
+
+  otherWindow.loadURL(`file://${__dirname}/app/other.html`);
+
+
 
   if (process.env.NODE_ENV === 'development') {
     mainWindow.openDevTools();
@@ -77,6 +94,13 @@ app.on('ready', async () => {
       }, {
         label: 'Services',
         submenu: []
+      }, {
+        type: 'separator'
+      }, {
+        label: 'otherWindow',
+        click: ()=>{
+          otherWindow.show()
+        }
       }, {
         type: 'separator'
       }, {

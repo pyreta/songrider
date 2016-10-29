@@ -28,7 +28,6 @@ export default class Recorder extends Component {
   }
 
   playMidi(e){
-    // console.log("MIDI PLAYED!!!");
     let volume = e.velocity;
     if (volume < 0.1) volume = 0.1;
     console.log(e);
@@ -86,7 +85,6 @@ export default class Recorder extends Component {
   }
 
   connectMidiDevice() {
-        console.log(WebMidi);
         let input = WebMidi.inputs[0];
         if (input) {
           console.log("MIDI device Found!");
