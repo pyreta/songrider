@@ -1,32 +1,23 @@
-// // @flow
-// import React, { Component } from 'react';
-// import Home from '../components/Home';
-// import Recorder from '../components/Recorder';
-//
-// export default class RecorderContainer extends Component {
-//   render() {
-//     return (
-//       <Recorder />
-//     );
-//   }
-// }
-
 // @flow
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Recorder from '../components/Recorder';
 import * as RecorderActions from '../actions/recorder';
 window.changeInstrument = RecorderActions.changeInstrument;
+window.addNote = RecorderActions.addNote;
+window.clearNotes = RecorderActions.clearNotes;
 
-function mapStateToProps(state) {
+function mapStateToProps({ instrument, notes }) {
   return {
-    instrument: state.instrument
+    instrument,
+    notes
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeInstrument: instrument => dispatch(RecorderActions.changeInstrument(instrument))
+    changeInstrument: instrument => dispatch(RecorderActions.changeInstrument(instrument)),
+    addNote: note => dispatch(RecorderActions.addNote(note)),
+    clearNotes: () => dispatch(RecorderActions.clearNotes())
   };
 }
 
