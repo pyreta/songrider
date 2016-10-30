@@ -47,6 +47,11 @@ export default class Recorder extends Component {
   }
 
   componentDidMount() {
+    console.log("PROPS HERE");
+    console.log(this.props);
+    console.log("PROPS HERE again");
+    this.props.changeInstrument(document.getElementById("instrument").value);
+    console.log(this.props);
     let path = `./samples/harp/C3.wav`;
     let aaa = new Audio(path);
     aaa.load();
@@ -131,7 +136,8 @@ export default class Recorder extends Component {
 
   changeInstrument(){
     console.log("Instrument Changed!");
-    this.setState({instrument: document.getElementById("instrument").value});
+    this.props.changeInstrument(document.getElementById("instrument").value);
+    // this.setState({instrument: document.getElementById("instrument").value});
   }
 
   render() {

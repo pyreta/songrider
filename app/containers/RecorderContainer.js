@@ -20,13 +20,13 @@ window.changeInstrument = RecorderActions.changeInstrument;
 
 function mapStateToProps(state) {
   return {
-    counter: state.counter
+    instrument: state.instrument
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeInstrument: RecorderActions.changeInstrument
+    changeInstrument: instrument => dispatch(RecorderActions.changeInstrument(instrument))
   };
 }
 
