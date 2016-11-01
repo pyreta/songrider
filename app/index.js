@@ -9,13 +9,35 @@ import configureStore from './store/configureStore';
 import RecorderContainer from './containers/RecorderContainer';
 import './app.global.css';
 
-const store = configureStore();
-window.store = store;
-const history = syncHistoryWithStore(hashHistory, store);
+// const store = configureStore();
+// window.store = store;
+// const history = syncHistoryWithStore(hashHistory, store);
+//
+// render(
+//   <Provider store={store}>
+//     <RecorderContainer />
+//   </Provider>,
+//   document.getElementById('root')
+// );
 
-render(
-  <Provider store={store}>
-    <RecorderContainer />
-  </Provider>,
-  document.getElementById('root')
+
+
+import store from './store/store.js';
+import TestContainer from './containers/test_container';
+
+import { addNote } from './actions/note_actions';
+window.store = store;
+window.addNote = addNote;
+
+const App = () => (
+	<Provider store={store}>
+		<TestContainer />
+	</Provider>
 );
+
+document.addEventListener("DOMContentLoaded", () => {
+	render(
+		<App />,
+		document.getElementById('root')
+	);
+});

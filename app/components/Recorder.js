@@ -51,6 +51,7 @@ export default class Recorder extends Component {
     console.log(this.props);
     console.log("PROPS HERE again");
     this.props.changeInstrument(document.getElementById("instrument").value);
+    this.props.clearNotes();
     console.log(this.props);
     let path = `./samples/harp/C3.wav`;
     let aaa = new Audio(path);
@@ -137,13 +138,18 @@ export default class Recorder extends Component {
   changeInstrument(){
     console.log("Instrument Changed!");
     this.props.changeInstrument(document.getElementById("instrument").value);
+    this.forceUpdate();
     // this.setState({instrument: document.getElementById("instrument").value});
   }
 
   render() {
+    let noteString = "no notes";
+    if (this.props.notes) noteString = this.props.notes.join("");
     return (
       <div>
         <div className={styles.container}>
+          <h2>{noteString}</h2>
+          <h2>{JSON.stringify(this.props)}</h2>
           <h2 onClick={this.playBack.bind(this)}>play</h2>
           <h2 onClick={this.erase.bind(this)}>clear</h2>
           <h2 id="record" onClick={this.record.bind(this)}>record</h2>
