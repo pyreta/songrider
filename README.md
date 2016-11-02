@@ -17,3 +17,8 @@ or run two servers with one command
 ```bash
 $ npm run dev
 ```
+## Package
+
+```bash
+$ npm run package -- --name FunnerApp --asar
+```
