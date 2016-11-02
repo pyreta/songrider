@@ -9,7 +9,7 @@ export default class Recorder extends Component {
   constructor() {
     super();
     this.state = {
-      instrument: 'harp',
+      instrument: 'spanish',
       input: null
     };
     this.start = null;
@@ -138,8 +138,8 @@ export default class Recorder extends Component {
   changeInstrument(){
     console.log("Instrument Changed!");
     this.props.changeInstrument(document.getElementById("instrument").value);
-    this.forceUpdate();
-    // this.setState({instrument: document.getElementById("instrument").value});
+    // this.forceUpdate();
+    this.setState({instrument: document.getElementById("instrument").value});
   }
 
   render() {
@@ -154,9 +154,10 @@ export default class Recorder extends Component {
           <h2 onClick={this.erase.bind(this)}>clear</h2>
           <h2 id="record" onClick={this.record.bind(this)}>record</h2>
           <input onChange={this.changeSpeed} id="speed" type="range" min="0" max="1000"/>
-          <select defaultValue="harp" id="instrument" onChange={this.changeInstrument.bind(this)}>
+          <select defaultValue="spanish" id="instrument" onChange={this.changeInstrument.bind(this)}>
             <option value="harp">Harp</option>
             <option value="bells">Bells</option>
+            <option value="spanish">Spanish Guitar</option>
             <option value="harpsichord">Harpsichord</option>
           </select>
 

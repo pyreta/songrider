@@ -1,11 +1,13 @@
 import React from 'react';
 
-const Test = (props) => (
+
+
+const Test = ({ notes, inputs, device, addNote }) => (
   <div>
-    {props.notes.join("-")}
-    {JSON.stringify(props)}
+    { notes.join(" ") }
+    { inputs.map((input, idx)=> <h2 key={idx}>{`${input.manufacturer} ${input.name}`}</h2> ) }
     <h2>In a container!</h2>
-    <button onClick = { props.addNote.bind(this, "G") }>
+    <button onClick = {  addNote.bind(this, "G") }>
       click me!
     </button>
   </div>
