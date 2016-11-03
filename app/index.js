@@ -27,10 +27,11 @@ import './app.global.css';
 import store from './store/store.js';
 import TestContainer from './containers/test_container';
 
-import { addNote } from './actions/note_actions';
+import { addNote, loadKeys } from './actions/note_actions';
 
 window.store = store;
 window.addNote = addNote;
+window.loadKeys = loadKeys;
 
 
 const App = (props) => (

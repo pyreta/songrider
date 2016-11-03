@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import { addNote, updateMidiInputs, updateMidiDevice } from '../actions/note_actions';
+import { addNote, removeNote, updateMidiInputs, updateMidiDevice, loadKeys } from '../actions/note_actions';
 import Test from '../components/test';
 const WebMidi = require('../utils/webmidi.min.js');
-
+window.WebMidi = WebMidi;
 // setInterval(() => {
 //   console.log(store.getState().inputs);
 //   console.log("DEVICE");
@@ -13,13 +13,24 @@ const WebMidi = require('../utils/webmidi.min.js');
 //   }
 // }, 1000);
 
+const playNote = (e) => {
+  console.log(e.note.number);
+  store.getState().keys[e.note.number].play();
+};
+
+const stopNote = (e) => {
+  console.log(e.note.number);
+  store.getState().keys[e.note.number].pause();
+  store.getState().keys[e.note.number].currentTime = 0;
+};
+
 const connectMidiDevice = () => {
   if (WebMidi.inputs[0]) {
     WebMidi.inputs.forEach((input)=>{
       console.log(`${input.manufacturer} ${input.name} Found!`);
       input.addListener('noteon', "all",
         (e) => {
-          console.log(e.note.name);
+          playNote(e);
           store.dispatch(addNote(e.note.name+e.note.octave));
         }
       );
@@ -29,6 +40,8 @@ const connectMidiDevice = () => {
       input.addListener('noteoff', "all",
         (e) => {
           console.log(e);
+          stopNote(e);
+          store.dispatch(removeNote(e.note.name+e.note.octave));
         }
       );
       input.addListener("controlchange", "all",

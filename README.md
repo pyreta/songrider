@@ -2,7 +2,6 @@
 
 MIDI based song writing and recording software.
 
-
 ## Run
 
 Run these two commands __simultaneously__ in different console tabs.
