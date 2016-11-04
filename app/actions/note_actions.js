@@ -13,7 +13,8 @@ const loadInstrument = instrument => {
   while (octave <= 5){
     notes.forEach((note) => {
       let path = `./samples/${instrument}/${note}${octave}.wav`;
-      keys[idx] = new Audio(path);
+      // keys[idx] = new Audio(path);
+      keys[idx] = { path, tag: null };
       idx += 1;
     });
     octave += 1;

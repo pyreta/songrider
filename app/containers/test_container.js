@@ -13,15 +13,42 @@ window.WebMidi = WebMidi;
 //   }
 // }, 1000);
 
+
+
 const playNote = (e) => {
-  console.log(e.note.number);
-  store.getState().keys[e.note.number].play();
+  // console.log(e.note.number);
+  // let note = store.getState().keys[e.note.number];
+  let path = store.getState().keys[e.note.number].path;
+  let note = new Audio(path);
+  store.getState().keys[e.note.number].tag = note;
+  let volume = e.velocity;
+  // note.loop = true;
+  note.currentTime = 0; note.volume = volume; note.play();
+  // setInterval(()=>{note.currentTime=1}, 1000);
 };
 
 const stopNote = (e) => {
-  console.log(e.note.number);
-  store.getState().keys[e.note.number].pause();
-  store.getState().keys[e.note.number].currentTime = 0;
+  // console.log(e.note.number);
+  let note = store.getState().keys[e.note.number].tag;
+  // note.pause();
+  if (note) fadeNote(note);
+  // note.loop = false;
+};
+
+const fadeNote = (note) => {
+  // console.log("FADE");
+  let fadeInterval = setInterval(()=>{
+    let volume = note.volume - 0.01;
+    if (volume < 0) volume = 0;
+    note.volume = volume;
+    if (note.volume <= 0) clearInterval(fadeInterval);
+  }, 0.25);
+  // while(note.volume > 0){
+  //   setTimeout(()=>{
+  //     console.log(note.volume);
+  //     note.volume -= 0.5;
+  //   }, 10);
+  // }
 };
 
 const connectMidiDevice = () => {
@@ -31,7 +58,7 @@ const connectMidiDevice = () => {
       input.addListener('noteon', "all",
         (e) => {
           playNote(e);
-          store.dispatch(addNote(e.note.name+e.note.octave));
+          store.dispatch(addNote({note:e.note.name, octave:e.note.octave}));
         }
       );
       input.addListener('pitchbend', "all", (e)=> {
@@ -39,7 +66,7 @@ const connectMidiDevice = () => {
       });
       input.addListener('noteoff', "all",
         (e) => {
-          console.log(e);
+          // console.log(e);
           stopNote(e);
           store.dispatch(removeNote(e.note.name+e.note.octave));
         }
@@ -73,6 +100,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   addNote: note => dispatch(addNote(note)),
+  loadKeys: instrument => dispatch(loadKeys(instrument)),
 });
 
 export default connect(

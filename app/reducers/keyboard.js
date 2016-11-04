@@ -2,8 +2,13 @@ import { ADD_NOTE, REMOVE_NOTE, UPDATE_INPUTS, UPDATE_DEVICE, LOAD_KEYS } from '
 
 let defaultState = { notes: [], inputs: [], device: null, keys: [] };
 
-const removeFromArray = (array, el) => {
-  let idx = array.indexOf(el);
+const removeNoteFromArray = (array, el) => {
+  let noteArr = array.map((n) => {
+    return `${n.note}${n.octave}`
+  });
+  let idx = array.map((n) => {
+    return `${n.note}${n.octave}`
+  }).indexOf(el);
   if (idx === -1) {
     return array;
   } else {
@@ -13,6 +18,18 @@ const removeFromArray = (array, el) => {
     ];
   }
 };
+//
+// const removeFromArray = (array, el) => {
+//   let idx = array.indexOf(el);
+//   if (idx === -1) {
+//     return array;
+//   } else {
+//     return [
+//         ...array.slice(0, idx),
+//         ...array.slice(idx + 1)
+//     ];
+//   }
+// };
 
 const keyboard = (oldState = defaultState, action) => {
   switch (action.type) {
@@ -25,7 +42,7 @@ const keyboard = (oldState = defaultState, action) => {
         };
     case REMOVE_NOTE:
         return {
-          notes: removeFromArray(oldState.notes, action.note),
+          notes: removeNoteFromArray(oldState.notes, action.note),
           inputs: oldState.inputs,
           keys: oldState.keys,
           device: oldState.device
