@@ -347,7 +347,7 @@ const findChords = (notes) => {
   } if (isDom9Sharp5Flat9(notes)) {
     chords.push(isDom9Sharp5Flat9(notes));
   } if (isMin9Sharp5Flat9(notes)) {
-    chords.push(isMin9Sharp5Flat9(notes));
+    chords.push(min9Sharp5Flat9(notes));
   } if (isMaj9Sharp5Flat9(notes)) {
     chords.push(isMaj9Sharp5Flat9(notes));
   } if (isDom9Sharp5Sharp9(notes)) {
@@ -357,7 +357,6 @@ const findChords = (notes) => {
   } if (isMaj9Sharp5Sharp9(notes)) {
     chords.push(isMaj9Sharp5Sharp9(notes));
   }
-  return chords;
 };
 
 

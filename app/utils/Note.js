@@ -156,7 +156,7 @@ class Note {
 					notes = [this.root, this.majThird, this.flattedFifth, this.minSeventh,this.ninth];
 				break;
 			case "min9flat5":
-					notes = [this.root, this.majThird, this.flattedFifth, this.minSeventh,this.ninth];
+					notes = [this.root, this.minThird, this.flattedFifth, this.minSeventh,this.ninth];
 				break;
 			case "maj9flat5":
 					notes = [this.root, this.majThird, this.flattedFifth, this.minSeventh,this.ninth];
@@ -165,7 +165,7 @@ class Note {
 					notes = [this.root, this.majThird, this.sharpFifth, this.minSeventh,this.ninth];
 				break;
 			case "min9sharp5":
-					notes = [this.root, this.majThird, this.sharpFifth, this.minSeventh,this.ninth];
+					notes = [this.root, this.minThird, this.sharpFifth, this.minSeventh,this.ninth];
 				break;
 			case "maj9sharp5":
 					notes = [this.root, this.majThird, this.sharpFifth, this.minSeventh,this.ninth];
